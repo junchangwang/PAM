@@ -2,6 +2,8 @@ using namespace std;
 
 #include <math.h>
 #include <vector>
+#include <filesystem>
+
 #include "lineitem.h"
 #include <pam/get_time.h>
 #include <pam/parse_command_line.h>
@@ -9,8 +11,12 @@ using namespace std;
 #include <parlay/random.h>
 #include <parlay/monoid.h>
 #include <pam/pam.h>
+
 #include "utils.h"
 #include "tables.h"
+
+namespace fs = std::filesystem;
+
 vector<maps> history;
 bool if_collect = false;
 size_t max_lineitem = 0;
@@ -551,6 +557,12 @@ int main(int argc, char** argv) {
   cur_txn = 0;
    
   string data_directory = P.getOptionValue("-d", default_directory);
+
+  if (!fs::exists(data_directory) || !fs::is_directory(data_directory)) {
+    cout << "Dataset directory does not exist or is not a directory: "
+            << data_directory << endl;
+    return -1;
+  }
 
   test_all(verbose, if_query, if_update,
 	   scale, num_txns, data_directory);
