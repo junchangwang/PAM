@@ -196,7 +196,7 @@ maps make_indices(string dirname, bool verbose) {
     cout << "-- customers" << endl;
     // ******************************
     string cf = dirname;
-    string customers_fname = cf.append("customers.tbl");
+    string customers_fname = cf.append("customer.tbl");
     parlay::sequence<Customer> customers
       = read_and_parse<Customer>(customers_fname, verbose);
     CUSTOMER_NUM = customers.size();
